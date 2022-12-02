@@ -52,5 +52,5 @@ fun fromConsolePartOne(task: Task) {
 }
 
 fun fromConsolePartTwo(task: Task) {
-    println("part one = ${task.part2(fromConsole())}")
+    println("part two = ${task.part2(fromConsole())}")
 }
