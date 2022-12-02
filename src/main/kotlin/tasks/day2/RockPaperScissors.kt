@@ -2,6 +2,7 @@ package tasks.day2
 
 import base.Task
 
+// day 2
 class RockPaperScissors : Task {
     override val id: Int
         get() = 2
