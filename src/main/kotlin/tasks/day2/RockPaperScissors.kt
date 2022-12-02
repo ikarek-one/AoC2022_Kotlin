@@ -98,4 +98,3 @@ class RockPaperScissors : Task {
     }
 
 }
-
