@@ -1,7 +1,7 @@
 package utils
 
 import base.Task
-import tasks.day1.Calories
+import tasks.day01.Calories
 
 val allTasks = listOf<Task>(
     // day 1

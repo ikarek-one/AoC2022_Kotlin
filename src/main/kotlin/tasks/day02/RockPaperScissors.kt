@@ -1,4 +1,4 @@
-package tasks.day2
+package tasks.day02
 
 import base.Task
 

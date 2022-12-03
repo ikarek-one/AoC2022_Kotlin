@@ -1,4 +1,4 @@
-package tasks.day1
+package tasks.day01
 
 import base.Task
 import utils.testAssertions
