@@ -2,7 +2,7 @@ package utils
 
 import base.Task
 
-fun testAssertions(task: Task): Boolean {
+fun testAssertions(task: Task, printing:Boolean = true): Pair<Boolean?, Boolean?> {
     val id = task.id
 
     val notFound = "NOT FOUND"
@@ -36,7 +36,10 @@ fun testAssertions(task: Task): Boolean {
     }\n"
     response += "\n"
 
-    println(response)
+    if (printing) {
+        println(response)
+    }
 
-    return isCorrect(partOne, expectedOne) == true && isCorrect(partTwo, expectedTwo) == true
+//    return isCorrect(partOne, expectedOne) == true && isCorrect(partTwo, expectedTwo) == true
+    return isCorrect(partOne, expectedOne) to isCorrect(partTwo, expectedTwo)
 }
