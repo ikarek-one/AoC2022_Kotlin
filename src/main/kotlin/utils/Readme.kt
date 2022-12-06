@@ -6,7 +6,8 @@ object Readme {
     val template = """
         Advent of Code 2022 - finished tasks so far:
          
-        Day No | part one | part two 
+        Day No | part one | part two
+        
     """.trimIndent()
 
 
