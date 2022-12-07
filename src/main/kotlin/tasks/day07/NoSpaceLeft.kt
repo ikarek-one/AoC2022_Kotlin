@@ -1,7 +1,6 @@
 package tasks.day07
 
 import base.Task
-import utils.testAssertions
 import java.util.*
 
 class NoSpaceLeft : Task {
@@ -9,62 +8,51 @@ class NoSpaceLeft : Task {
         get() = 7
 
     override fun part1(lines: Sequence<String>): Long {
-        val elems = parseLines(lines)
+        val contents = parseLines(lines)
 
-        elems
+        val upperLimitToTake = 100000
+        return contents
             .mapNotNull { it as? Directory }
-            .map { dir -> "name = ${dir.name}, size = ${calcSize(dir)}" }
-            .forEach(::println)
-
-
-        return elems
-            .mapNotNull { it as? Directory }
-            .map { dir -> calcSize(dir) }
-            .filter { n -> n <= 100000 }
+            .map { dir -> directorySize(dir) }
+            .filter { n -> n <= upperLimitToTake }
             .sum()
     }
 
     override fun part2(lines: Sequence<String>): Long {
-        val total = 70000000
-        val req = 30000000
+        val capacity = 70000000
+        val required = 30000000
 
         val elems = parseLines(lines)
-        val rootname = "/"
-        val rootdir = elems.first { elem -> (elem as? Directory)?.name == rootname } as Directory
+        val rootName = "/"
+        val rootDir = elems.first { elem -> (elem as? Directory)?.name == rootName } as Directory
 
-        val totalSize = calcSize(rootdir)
-        val neededSize = req - (total - totalSize)
-        println("neededSize = $neededSize")
+        val usedSpace = directorySize(rootDir)
+        val neededSpace = required - (capacity - usedSpace)
 
         return elems
+            .asSequence()
             .mapNotNull { it as? Directory }
-            .map { calcSize(it) }
+            .map { directorySize(it) }
             .sorted()
-            .filter { it >= neededSize }
+            .filter { it >= neededSpace }
             .first()
     }
 
-    fun calcSize(dir: Directory): Long {
-        return sequence<Long> {
-            for (data in dir.content) {
-                val size = when (data) {
-                    is File -> data.size
-                    is Directory ->
-                        if (data.content.isEmpty())
-                            0
-                        else
-                            calcSize(data)
+    private fun directorySize(dir: Directory): Long {
+        return dir.content.sumOf { data ->
+            when (data) {
+                is File -> data.size
+                is Directory ->
+                    if (data.content.isEmpty()) 0 else directorySize(data)
 
-                    else -> throw Exception("Unexpected type: ${data.javaClass.name}")
-                }
-                yield(size)
+                else -> throw Exception("Unexpected type: ${data.javaClass.name}")
             }
-        }.sum()
+        }
     }
 
-    fun parseLines(lines: Sequence<String>): MutableList<Element> {
+    private fun parseLines(lines: Sequence<String>): List<Data> {
         val dirStack = Stack<Directory>()
-        val elements = mutableListOf<Element>()
+        val elements = mutableListOf<Data>()
         fun peekOrNull() = if (dirStack.isEmpty()) null else dirStack.peek()
 
         for (line in lines.filter { it.isNotBlank() }.map { it.trim() }) {
@@ -72,21 +60,20 @@ class NoSpaceLeft : Task {
                 line.startsWith("\$ cd ") -> {
                     val name = line.substringAfter("\$ cd ")
                     if (name.contains("..")) {
-                        elements.add(ChangeDirectory(".."))
                         dirStack.pop()
                     } else {
-                        val newDir = Directory(name, peekOrNull())
+                        val newDir = Directory(name)
                         peekOrNull()?.content?.add(newDir)
                         elements.add(newDir)
                         dirStack.push(newDir)
                     }
                 }
 
-                line == "\$ ls" -> elements.add(ListCmd(peekOrNull()?.name!!))
+//                ignore lines that == "$ ls"
 
                 line.startsWith("dir ") -> {
                     val name = line.substringAfter("dir ")
-                    val newDir = Directory(name, peekOrNull())
+                    val newDir = Directory(name)
                     elements.add(newDir)
                     peekOrNull()?.content?.add(newDir)
                 }
@@ -95,32 +82,19 @@ class NoSpaceLeft : Task {
                     val tokens = line.split("\\s+".toRegex())
                     val size = tokens[0].toLong()
                     val name = tokens[1]
-                    val newFile = File(name, size, peekOrNull()!!)
+                    val newFile = File(name, size)
                     elements.add(newFile)
                     peekOrNull()?.content?.add(newFile)
                 }
+
             }
         }
 
-        return elements
+        return elements.toList()
     }
 
 
+    private open class Data
+    private data class Directory(val name: String, val content: MutableList<Data> = mutableListOf()) : Data()
+    private data class File(val name: String, val size: Long) : Data()
 }
-
-fun main() {
-    testAssertions(NoSpaceLeft())
-}
-
-open class Element
-
-open class Command : Element()
-
-data class ChangeDirectory(val dir: String) : Command()
-data class ListCmd(val dir: String) : Command()
-
-open class Data : Element()
-data class Directory(val name: String, val root: Directory? = null, val content: MutableList<Data> = mutableListOf()) :
-    Data()
-
-data class File(val name: String, val size: Long, val root: Directory) : Data()

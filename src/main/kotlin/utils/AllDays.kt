@@ -7,6 +7,7 @@ import tasks.day03.Rucksacks
 import tasks.day04.Overlapping
 import tasks.day05.StackedCrates
 import tasks.day06.MessageMarker
+import tasks.day07.NoSpaceLeft
 
 val allTasks = listOf<Task>(
     // day 1
@@ -25,8 +26,10 @@ val allTasks = listOf<Task>(
     StackedCrates(),
 
     // day 6
-    MessageMarker()
+    MessageMarker(),
 
+    // day 7
+    NoSpaceLeft(),
 )
 
 fun testAll() {
