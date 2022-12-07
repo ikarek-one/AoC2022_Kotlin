@@ -1,6 +1,7 @@
 package tasks.day07
 
 import base.Task
+import utils.testAssertions
 import java.util.*
 
 class NoSpaceLeft : Task {
@@ -12,6 +13,7 @@ class NoSpaceLeft : Task {
 
         val upperLimitToTake = 100000
         return contents
+            .asSequence()
             .mapNotNull { it as? Directory }
             .map { dir -> directorySize(dir) }
             .filter { n -> n <= upperLimitToTake }
@@ -22,14 +24,14 @@ class NoSpaceLeft : Task {
         val capacity = 70000000
         val required = 30000000
 
-        val elems = parseLines(lines)
+        val contents = parseLines(lines)
         val rootName = "/"
-        val rootDir = elems.first { elem -> (elem as? Directory)?.name == rootName } as Directory
+        val rootDir = contents.first { elem -> (elem as? Directory)?.name == rootName } as Directory
 
         val usedSpace = directorySize(rootDir)
         val neededSpace = required - (capacity - usedSpace)
 
-        return elems
+        return contents
             .asSequence()
             .mapNotNull { it as? Directory }
             .map { directorySize(it) }
@@ -70,13 +72,7 @@ class NoSpaceLeft : Task {
                 }
 
 //                ignore lines that == "$ ls"
-
-                line.startsWith("dir ") -> {
-                    val name = line.substringAfter("dir ")
-                    val newDir = Directory(name)
-                    elements.add(newDir)
-                    peekOrNull()?.content?.add(newDir)
-                }
+//                ignore lines with "dir"
 
                 line.matches("\\d+ .+".toRegex()) -> {
                     val tokens = line.split("\\s+".toRegex())
@@ -97,4 +93,8 @@ class NoSpaceLeft : Task {
     private open class Data
     private data class Directory(val name: String, val content: MutableList<Data> = mutableListOf()) : Data()
     private data class File(val name: String, val size: Long) : Data()
+}
+
+fun main() {
+    testAssertions(NoSpaceLeft())
 }
