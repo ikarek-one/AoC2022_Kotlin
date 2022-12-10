@@ -10,6 +10,7 @@ import tasks.day06.MessageMarker
 import tasks.day07.NoSpaceLeft
 import tasks.day08.TreetopHouse
 import tasks.day09.RopeBridge
+import tasks.day10.CathodeRayTube
 
 val allTasks = listOf<Task>(
     // day 1
@@ -39,6 +40,10 @@ val allTasks = listOf<Task>(
     // day 9
     RopeBridge(),
 
+    // day 10
+    CathodeRayTube(),
+
+    // day 11
 
 )
 
