@@ -22,7 +22,7 @@ class CathodeRayTube : Task {
         val pixels = sequence {
             for (i in 0..(gridHeight * gridWidth - 1)) {
                 val sprite = stateMap[i + 1]!! + (i / gridWidth) * gridWidth
-                val pixel = if (i in (sprite - 1)..(sprite + 1)) "#" else "."
+                val pixel = if (i in (sprite - 1)..(sprite + 1)) pixelLit else pixelDark
                 yield(pixel)
             }
         }
@@ -57,6 +57,8 @@ class CathodeRayTube : Task {
         val gridHeight = 6
         val initialX = 1
         val checkedCycles = listOf(20, 60, 100, 140, 180, 220)
+        val pixelLit = '#'
+        val pixelDark = '.'
     }
 }
 
