@@ -10,7 +10,6 @@ class CathodeRayTube : Task {
     override fun part1(lines: Sequence<String>): Long {
         val stateMap = cycleToValueMap(lines)
 
-        val checkedCycles = listOf(20, 60, 100, 140, 180, 220)
         return checkedCycles.asSequence()
             .map { i -> stateMap[i]!! * i }
             .sum()
@@ -21,14 +20,14 @@ class CathodeRayTube : Task {
         val stateMap = cycleToValueMap(lines)
 
         val pixels = sequence {
-            for (i in 0..239) {
-                val sprite = stateMap[i + 1]!! + (i / 40) * 40
+            for (i in 0..(gridHeight * gridWidth - 1)) {
+                val sprite = stateMap[i + 1]!! + (i / gridWidth) * gridWidth
                 val pixel = if (i in (sprite - 1)..(sprite + 1)) "#" else "."
                 yield(pixel)
             }
         }
 
-        val grid = pixels.chunked(40)
+        val grid = pixels.chunked(gridWidth)
             .map { it.joinToString(separator = "") }
             .joinToString(separator = "\n")
 
@@ -48,11 +47,17 @@ class CathodeRayTube : Task {
                     yield(line.replace("[^0-9-]+".toRegex(), "").toInt())
                 }
             }
-        }.runningFold(1) { acc: Int, i: Int -> acc + i }
+        }.runningFold(initialX) { acc: Int, i: Int -> acc + i }
             .withIndex()
             .associate { idxVal -> idxVal.index + 1 to idxVal.value }
     }
 
+    companion object {
+        val gridWidth = 40
+        val gridHeight = 6
+        val initialX = 1
+        val checkedCycles = listOf(20, 60, 100, 140, 180, 220)
+    }
 }
 
 
