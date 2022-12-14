@@ -2,6 +2,7 @@ package utils
 
 import base.Task
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.IOException
 
 fun fromConsole(): Sequence<String> =
@@ -10,7 +11,11 @@ fun fromConsole(): Sequence<String> =
 fun fromFileAsString(id: Int): String {
     val filename = "src/main/resources/inputs/input${id}.txt"
     val file = File(filename)
-    return file.readText().replace("\r".toRegex(), "")
+    return try {
+        file.readText().replace("\r".toRegex(), "")
+    } catch (exc: FileNotFoundException) {
+        ""
+    }
 }
 
 fun fromFile(id: Int): Sequence<String> {

@@ -11,6 +11,8 @@ import tasks.day07.NoSpaceLeft
 import tasks.day08.TreetopHouse
 import tasks.day09.RopeBridge
 import tasks.day10.CathodeRayTube
+import tasks.day13.DistressSignal
+import tasks.day14.RegolithReservoir
 
 val allTasks = listOf<Task>(
     // day 1
@@ -44,8 +46,24 @@ val allTasks = listOf<Task>(
     CathodeRayTube(),
 
     // day 11
+    FakeTask(11),
 
+    // day 12
+    FakeTask(12),
+
+    //day 13
+    DistressSignal(),
+
+    // day 14
+    RegolithReservoir(),
+
+    // day 15
 )
+
+class FakeTask(val idx: Int) : Task {
+    override val id: Int
+        get() = idx
+}
 
 fun testAll() {
     allTasks.forEach(::testAssertions)

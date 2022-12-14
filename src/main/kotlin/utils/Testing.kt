@@ -2,13 +2,21 @@ package utils
 
 import base.Task
 
-fun testAssertions(task: Task, printing:Boolean = true): Pair<Boolean?, Boolean?> {
+@Deprecated(message = "Use the call with a Task generating function to avoid problems in part 2 testing!")
+fun testAssertions(task: Task, printing: Boolean = true): Pair<Boolean?, Boolean?> {
+    return testAssertions({task}, printing)
+}
+
+fun testAssertions(taskGenerator: () -> Task, printing:Boolean = true): Pair<Boolean?, Boolean?> {
+    val task = taskGenerator()
     val id = task.id
 
     val notFound = "NOT FOUND"
 
     val partOne = task.part1(fromFile(id))
-    val partTwo = task.part2(fromFile(id))
+
+    val task2 = taskGenerator()
+    val partTwo = task2.part2(fromFile(id))
 
     val expectedOne = answerPartOne(id)
     val expectedTwo = answerPartTwo(id)
