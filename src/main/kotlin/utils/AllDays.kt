@@ -13,6 +13,7 @@ import tasks.day09.RopeBridge
 import tasks.day10.CathodeRayTube
 import tasks.day13.DistressSignal
 import tasks.day14.RegolithReservoir
+import tasks.day21.MonkeyMath
 
 val allTasks = listOf<Task>(
     // day 1
@@ -58,6 +59,10 @@ val allTasks = listOf<Task>(
     RegolithReservoir(),
 
     // day 15
+
+    // day 21
+    MonkeyMath(),
+
 )
 
 class FakeTask(val idx: Int) : Task {

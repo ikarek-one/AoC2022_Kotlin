@@ -23,13 +23,14 @@ object Readme {
     }
 
     fun generateText(): String {
-        return template + "\n" + allTasks
+        return template + "\n" + (1..allTasks.maxOf { it.id })
             .asSequence()
-            .sortedByDescending { it.id }
-            .map { task ->
-                val (part1, part2) = testAssertions(task, false)
+            .sortedDescending()
+            .map { id ->
+                val task = allTasks.firstOrNull { it.id == id }
+                val (part1, part2) = if(task!=null) testAssertions(task, false) else false to false
                 fun star(condition: Boolean?) = if (condition == true) "✰" else "★"
-                "Day ${task.id.toString().padStart(2, '0')} |     ${star(part1)}    |     ${star(part2)}   "
+                "Day ${id.toString().padStart(2, '0')} |     ${star(part1)}    |     ${star(part2)}   "
             }.joinToString(separator = " \n") + "\n" + "\n" +
                 "Legend: ★ - not finished, ✰ - finished"
     }
