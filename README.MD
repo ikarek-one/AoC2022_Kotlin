@@ -2,7 +2,7 @@ Advent of Code 2022 - finished tasks so far:
  
 Day No | part one | part two
 
-Day 21 |     ✰    |     ★    
+Day 21 |     ✰    |     ✰    
 Day 20 |     ★    |     ★    
 Day 19 |     ★    |     ★    
 Day 18 |     ★    |     ★    
