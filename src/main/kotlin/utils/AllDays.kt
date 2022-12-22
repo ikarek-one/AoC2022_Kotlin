@@ -11,10 +11,12 @@ import tasks.day07.NoSpaceLeft
 import tasks.day08.TreetopHouse
 import tasks.day09.RopeBridge
 import tasks.day10.CathodeRayTube
+import tasks.day11.MonkeyInTheMiddle
 import tasks.day13.DistressSignal
 import tasks.day14.RegolithReservoir
 import tasks.day18.BoilingBoulders
 import tasks.day21.MonkeyMath
+import tasks.day22.MonkeyMap
 
 val allTasks = listOf<Task>(
     // day 1
@@ -48,10 +50,10 @@ val allTasks = listOf<Task>(
     CathodeRayTube(),
 
     // day 11
-    FakeTask(11),
+    MonkeyInTheMiddle(),
 
     // day 12
-    FakeTask(12),
+
 
     //day 13
     DistressSignal(),
@@ -66,6 +68,9 @@ val allTasks = listOf<Task>(
 
     // day 21
     MonkeyMath(),
+
+    // day 22
+    MonkeyMap(),
 
 )
 

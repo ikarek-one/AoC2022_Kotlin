@@ -23,7 +23,7 @@ object Readme {
     }
 
     fun generateText(): String {
-        return template + "\n" + (1..allTasks.maxOf { it.id })
+        val txt = template + "\n" + (1..allTasks.maxOf { it.id })
             .asSequence()
             .sortedDescending()
             .map { id ->
@@ -33,5 +33,8 @@ object Readme {
                 "Day ${id.toString().padStart(2, '0')} |     ${star(part1)}    |     ${star(part2)}   "
             }.joinToString(separator = " \n") + "\n" + "\n" +
                 "Legend: ★ - not finished, ✰ - finished"
+
+        return txt + "\n" +
+                "I've got ${txt.count { it == '✰' } - 1} stars total!"
     }
 }
