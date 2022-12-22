@@ -5,7 +5,7 @@ Day No | part one | part two
 Day 21 |     ✰    |     ✰    
 Day 20 |     ★    |     ★    
 Day 19 |     ★    |     ★    
-Day 18 |     ★    |     ★    
+Day 18 |     ✰    |     ✰    
 Day 17 |     ★    |     ★    
 Day 16 |     ★    |     ★    
 Day 15 |     ★    |     ★    

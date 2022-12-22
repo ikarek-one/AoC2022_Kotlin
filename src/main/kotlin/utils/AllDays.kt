@@ -13,6 +13,7 @@ import tasks.day09.RopeBridge
 import tasks.day10.CathodeRayTube
 import tasks.day13.DistressSignal
 import tasks.day14.RegolithReservoir
+import tasks.day18.BoilingBoulders
 import tasks.day21.MonkeyMath
 
 val allTasks = listOf<Task>(
@@ -59,6 +60,9 @@ val allTasks = listOf<Task>(
     RegolithReservoir(),
 
     // day 15
+
+    // day 18
+    BoilingBoulders(),
 
     // day 21
     MonkeyMath(),
