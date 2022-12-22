@@ -39,7 +39,6 @@ class MonkeyMath : Task {
             val seed = map[right]!!.answer(map)
             solvePartTwo(map[left]!!, seed, map)
         } else {
-            map[MonkeyVal.humanName] = MonkeyVal(MonkeyVal.humanName, map[left]!!.answer(map))
             val seed = map[left]!!.answer(map)
             solvePartTwo(map[right]!!, seed, map)
         }
