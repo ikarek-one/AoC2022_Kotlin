@@ -35,6 +35,6 @@ object Readme {
                 "Legend: ★ - not finished, ✰ - finished"
 
         return txt + "\n" +
-                "I've got ${txt.count { it == '✰' } - 1} stars total!"
+                "\nI've got ${txt.count { it == '✰' } - 1} stars total!"
     }
 }

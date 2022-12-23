@@ -17,6 +17,7 @@ import tasks.day14.RegolithReservoir
 import tasks.day18.BoilingBoulders
 import tasks.day21.MonkeyMath
 import tasks.day22.MonkeyMap
+import tasks.day23.UnstableDiffusion
 
 val allTasks = listOf<Task>(
     // day 1
@@ -71,6 +72,10 @@ val allTasks = listOf<Task>(
 
     // day 22
     MonkeyMap(),
+
+    // day 23
+    UnstableDiffusion(),
+
 
 )
 
