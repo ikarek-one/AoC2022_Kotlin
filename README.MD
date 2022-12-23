@@ -25,7 +25,7 @@ Day 04 |     ✰    |     ✰
 Day 03 |     ✰    |     ✰    
 Day 02 |     ✰    |     ✰    
 Day 01 |     ✰    |     ✰   
-
+ 
 Legend: ★ - not finished, ✰ - finished
 
 I've got 32 stars total!
