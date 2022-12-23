@@ -34,7 +34,7 @@ object Readme {
             }.joinToString(separator = " \n") + "\n" + "\n" +
                 "Legend: ★ - not finished, ✰ - finished"
 
-        return txt + "\n" +
-                "I've got ${txt.count { it == '✰' } - 1} stars total!"
+        return txt + "\n"  +
+                "\nI've got ${txt.count { it == '✰' } - 1} stars total!"
     }
 }

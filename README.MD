@@ -2,6 +2,7 @@ Advent of Code 2022 - finished tasks so far:
  
 Day No | part one | part two
 
+Day 23 |     ✰    |     ✰    
 Day 22 |     ✰    |     ★    
 Day 21 |     ✰    |     ✰    
 Day 20 |     ★    |     ★    
@@ -24,6 +25,7 @@ Day 04 |     ✰    |     ✰
 Day 03 |     ✰    |     ✰    
 Day 02 |     ✰    |     ✰    
 Day 01 |     ✰    |     ✰   
-
+ 
 Legend: ★ - not finished, ✰ - finished
-I've got 30 stars total!
+
+I've got 32 stars total!
