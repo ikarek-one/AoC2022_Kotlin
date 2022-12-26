@@ -18,8 +18,8 @@ class HillClimbingAlgorithm : Task {
         val neighbourMap = flattenedGrid.asSequence().associateWith { neighbours(it, grid) }
 
 
-        val start = flattenedGrid.first { it.type == MidPoint.Type.START }
-        val end = flattenedGrid.first { it.type == MidPoint.Type.END }
+        val start = flattenedGrid.first { it.type == GridPoint.Type.START }
+        val end = flattenedGrid.first { it.type == GridPoint.Type.END }
 
         val bfsParentMap = bfs(flattenedGrid, neighbourMap, start)
 
@@ -42,19 +42,19 @@ class HillClimbingAlgorithm : Task {
     }
 
 
-    private fun neighbours(point: MidPoint, grid: List<List<MidPoint>>): List<MidPoint> {
+    private fun neighbours(point: GridPoint, grid: List<List<GridPoint>>): List<GridPoint> {
         return transpositions.map { it.first + point.x to it.second + point.y }
             .mapNotNull { grid.getOrNull(it.second)?.getOrNull(it.first) }.filter { point.canGoToNext(it) }
     }
 
-    private fun parseGrid(lines: Sequence<String>): List<List<MidPoint>> {
+    private fun parseGrid(lines: Sequence<String>): List<List<GridPoint>> {
         return lines.withIndex().map { (row, line) ->
                 sequence {
                     for (i in line.indices) {
                         val point = when (line[i]) {
-                            'S' -> MidPoint(i, row, startElevation, MidPoint.Type.START)
-                            'E' -> MidPoint(i, row, endElevation, MidPoint.Type.END)
-                            in 'a'..'z' -> MidPoint(i, row, line[i], MidPoint.Type.MID)
+                            'S' -> GridPoint(i, row, startElevation, GridPoint.Type.START)
+                            'E' -> GridPoint(i, row, endElevation, GridPoint.Type.END)
+                            in 'a'..'z' -> GridPoint(i, row, line[i], GridPoint.Type.MID)
                             else -> throw Exception("Only [a-zES] chars expected, but found '${line[i]}' in (x,y) = ($i,$row)!")
                         }
                         yield(point)
@@ -64,13 +64,13 @@ class HillClimbingAlgorithm : Task {
                 //checking if the list has only one start and one end
                     grid ->
                 val excMsg = "The list has more than one element of type: "
-                grid.flatten().singleOrNull { it.type == MidPoint.Type.START } ?: throw Exception(excMsg + "start")
-                grid.flatten().singleOrNull { it.type == MidPoint.Type.END } ?: throw Exception(excMsg + "end")
+                grid.flatten().singleOrNull { it.type == GridPoint.Type.START } ?: throw Exception(excMsg + "start")
+                grid.flatten().singleOrNull { it.type == GridPoint.Type.END } ?: throw Exception(excMsg + "end")
             }
     }
 
-    private data class MidPoint(val x: Int, val y: Int, val label: Char, val type: Type = Type.MID) {
-        fun canGoToNext(next: MidPoint): Boolean {
+    private data class GridPoint(val x: Int, val y: Int, val label: Char, val type: Type = Type.MID) {
+        fun canGoToNext(next: GridPoint): Boolean {
             return this != next && this.type != Type.END && (next.label.code - this.label.code) <= 1
         }
 
