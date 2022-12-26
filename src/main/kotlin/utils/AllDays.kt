@@ -18,6 +18,7 @@ import tasks.day18.BoilingBoulders
 import tasks.day21.MonkeyMath
 import tasks.day22.MonkeyMap
 import tasks.day23.UnstableDiffusion
+import tasks.day25.FullOfHotAir
 
 val allTasks = listOf<Task>(
     // day 1
@@ -76,7 +77,10 @@ val allTasks = listOf<Task>(
     // day 23
     UnstableDiffusion(),
 
+    // day 24
 
+    // day 25
+    FullOfHotAir()
 )
 
 class FakeTask(val idx: Int) : Task {
