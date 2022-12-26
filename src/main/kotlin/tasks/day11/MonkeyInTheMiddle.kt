@@ -1,70 +1,94 @@
 package tasks.day11
 
 import base.Task
-import utils.testAssertions
 
 
 class MonkeyInTheMiddle : Task {
     override val id: Int
         get() = 11
 
+
     override fun part1(lines: Sequence<String>): Long {
-        val monkeys = lines.joinToString("\n")
+        val monkeys = toMonkeysList(lines)
+
+        val worryLevelFun: (Monkey, Long) -> Long = { monkey, item ->
+            monkey.operation(item) / 3
+        }
+
+        val times = 20L
+        val (a, b) = calculateMonkeyMoves(monkeys, times, worryLevelFun)
+
+        return (a * b)
+    }
+
+    override fun part2(lines: Sequence<String>): Long {
+        val monkeys = toMonkeysList(lines)
+
+        val dividerProduct = monkeys.map { it.testDivider }.reduce { a, b -> a * b }
+        val worryLevelFun: (Monkey, Long) -> Long = { monkey, item ->
+            (monkey.operation(item) % dividerProduct)
+        }
+
+        val times = 10000L
+        val (a, b) = calculateMonkeyMoves(monkeys, times, worryLevelFun)
+
+        monkeys.forEach(::println)
+
+        return a * b
+    }
+
+    private fun toMonkeysList(lines: Sequence<String>) =
+        lines.joinToString("\n")
             .split("\n\n")
             .map { parseMonkey(it.split("\n")) }
             .toList()
 
-        val times = 20
-        val (a, b) = calculateMonkeyMoves(monkeys, times)
 
-        return (a * b).toLong()
-    }
-
-
-    private fun calculateMonkeyMoves(monkeys: List<Monkey>, repeatNum: Int): List<Int> {
+    private fun calculateMonkeyMoves(
+        monkeys: List<Monkey>,
+        repeatNum: Long,
+        worryLevel: (Monkey, Long) -> Long
+    ): List<Long> {
         val monkeyMap = monkeys.associateBy { it.id }
 
-        repeat(repeatNum) {
+        repeat(repeatNum.toInt()) {
             for (monkey in monkeys) {
                 for (item in monkey.items) {
-                    val worryLevel = monkey.worryLevel(item)
-                    val destMonkey = if (worryLevel % monkey.testDivider == 0) {
+                    val worryLevelVal = worryLevel(monkey, item)
+                    val destMonkey = if (worryLevelVal % monkey.testDivider == 0L) {
                         monkey.ifTrue
                     } else {
                         monkey.ifFalse
                     }
                     monkey.counter += 1
-                    monkeyMap[destMonkey]!!.items.add(worryLevel)
+                    monkeyMap[destMonkey]!!.items.add(worryLevelVal)
                 }
                 monkey.items.clear()
             }
         }
-
-
         return monkeys.map { it.counter }.sortedDescending().toList()
     }
 
 
     private fun parseMonkey(monkeyLines: List<String>): Monkey {
-        val id = monkeyLines[0].replace("\\D+".toRegex(), "").toInt()
+        val id = monkeyLines[0].replace("\\D+".toRegex(), "").toLong()
         val items = monkeyLines[1]
             .replace("[^0-9,]+".toRegex(), "")
             .split(",")
-            .map { it.toInt() }.toMutableList()
+            .map { it.toLong() }.toMutableList()
 
-//        println("ml2 = ${monkeyLines[2]}")
-        val opNumber = monkeyLines[2].replace("\\D+".toRegex(), "").toIntOrNull()
+        val opNumber = monkeyLines[2].replace("\\D+".toRegex(), "").toLongOrNull()
         val operation = if (monkeyLines[2].contains("*")) {
-            { n: Int -> n * (opNumber ?: n) }
+            { n: Long -> n * (opNumber ?: n) }
         } else if (monkeyLines[2].contains("+")) {
-            { n: Int -> n + (opNumber ?: n) }
+            { n: Long -> n + (opNumber ?: n) }
         } else {
-            throw Exception()
+            throw Exception("The operation line doesn't contain '+' nor '*' sign! Line: '${monkeyLines[2]}' ")
         }
 
-        val divider = monkeyLines[3].replace("\\D+".toRegex(), "").toInt()
-        val ifTrue = monkeyLines[4].replace("\\D+".toRegex(), "").toInt()
-        val ifFalse = monkeyLines[5].replace("\\D+".toRegex(), "").toInt()
+        val divider = monkeyLines[3].replace("\\D+".toRegex(), "").toLong()
+        val ifTrue = monkeyLines[4].replace("\\D+".toRegex(), "").toLong()
+        val ifFalse = monkeyLines[5].replace("\\D+".toRegex(), "").toLong()
 
         return Monkey(
             id,
@@ -77,23 +101,14 @@ class MonkeyInTheMiddle : Task {
     }
 
 
-    inner class Monkey(
-        val id: Int,
-        val items: MutableList<Int> = mutableListOf(),
-        val operation: (Int) -> Int,
-        val testDivider: Int,
-        val ifTrue: Int,
-        val ifFalse: Int,
-        var counter: Int = 0
-    ) {
-        fun worryLevel(item: Int): Int {
-            return (this.operation(item) / 3)
-        }
-
-    }
-}
-
-fun main() {
-    testAssertions(::MonkeyInTheMiddle)
+    private data class Monkey(
+        val id: Long,
+        val items: MutableList<Long> = mutableListOf(),
+        val operation: (Long) -> Long,
+        val testDivider: Long,
+        val ifTrue: Long,
+        val ifFalse: Long,
+        var counter: Long = 0
+    )
 }
 

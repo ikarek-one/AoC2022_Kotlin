@@ -16,7 +16,7 @@ Day 15 |     ★    |     ★
 Day 14 |     ✰    |     ✰    
 Day 13 |     ✰    |     ✰    
 Day 12 |     ★    |     ★    
-Day 11 |     ✰    |     ★    
+Day 11 |     ✰    |     ✰    
 Day 10 |     ✰    |     ✰    
 Day 09 |     ✰    |     ✰    
 Day 08 |     ✰    |     ✰    
@@ -30,4 +30,4 @@ Day 01 |     ✰    |     ✰
 
 Legend: ★ - not finished, ✰ - finished
 
-I've got 33 stars total!
+I've got 34 stars total!
