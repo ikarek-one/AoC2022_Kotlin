@@ -20,22 +20,24 @@ class FullOfHotAir : Task {
         return sum
     }
 
-    fun snafuToDecimal(line: String): Long {
-        return line.reversed().withIndex()
+    private fun snafuToDecimal(snafuAsText: String): Long {
+        return snafuAsText
+            .reversed()
+            .withIndex()
             .map { (exp, ch) ->
                 val factor = digitToSnafu[ch] ?: throw Exception("Unexpected char: '$ch'!")
                 baseAsDouble.pow(exp).toLong() * factor
             }.sum()
     }
 
-    fun decimalToSnafu(dec: Long): String {
+    private fun decimalToSnafu(dec: Long): String {
         if (dec == 0L) return ""
         val lastSnafuDig = snafuDigits[(dec % base).toInt()]
 
         return decimalToSnafu((dec + shift) / base) + lastSnafuDig
     }
 
-    companion object {
+    private companion object {
         val digitToSnafu = mapOf<Char, Long>(
             '2' to 2,
             '1' to 1,
